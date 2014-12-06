@@ -1,8 +1,31 @@
 module MasterSplitter
 
   def standard_joiner(first_slice_name, options={})
+    output_dir = options[:output_dir]
+    output_file_name = options[:output_file_name]
+    slice_names = []
+    match_result = STANDARD_SLICE_NAMING_FORMAT.
+      match(first_slice_name)
 
-  end
+    if match_result
+      output_file_name ||= match_result[1]
+      slice_number = match_result[2].to_i
+      while true
+        temp = ("%3d"%[slice_number]).gsub(" ", "0")
+        slice_name = [match_result[1], temp].join('.')
+        if File.exists?(slice_name)
+          slice_names << slice_name
+          slice_number += 1
+        else
+          break
+        end
+      end #end of while
+
+      join(File.join(output_dir, output_file_name), slice_names)
+    else
+      raise Exception, %q{Wrong naming format for the first slice!}
+    end
+  end #end of standard_joiner
 
   def join(output_file_name, slice_names)
     output_file = File.open(source_file_name, 'wb')
