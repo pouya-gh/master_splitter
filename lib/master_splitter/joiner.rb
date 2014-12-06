@@ -1,5 +1,9 @@
 module MasterSplitter
-  
+
+  def standard_joiner(first_slice_name, options={})
+
+  end
+
   def join(output_file_name, slice_names)
     output_file = File.open(source_file_name, 'wb')
 
