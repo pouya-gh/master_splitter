@@ -1,4 +1,17 @@
 module MasterSplitter
+  def custom_joiner(slice_names, options={})
+    output_dir = options[:output_dir]
+    output_file_name = options[:output_file_name]
+    slice_names.each do |slice_name|
+      unless File.exists? slice_name
+        raise Exception, "file '#{slice_name}' does not exist."
+      end
+    end
+
+    output_file_name ||= slice_name[0]
+    output_dir ||= ""
+    join(File.join(output_dir, output_file_name), slice_names)
+  end
 
   def standard_joiner(first_slice_name, options={})
     output_dir = options[:output_dir]
@@ -21,6 +34,7 @@ module MasterSplitter
         end
       end #end of while
 
+      output_dir ||= ""
       join(File.join(output_dir, output_file_name), slice_names)
     else
       raise Exception, %q{Wrong naming format for the first slice!}
