@@ -1,4 +1,21 @@
 module MasterSplitter
+  def custom_splitter(source_file_name, slice_sizes, options={})
+    slice_names = []
+    output_dir = options[:output_dir] || ""
+    sum_of_sizes = slice_sizes.each(&:+)
+    source = File.open(source_file_name, 'rb')
+    if sum_of_sizes != source.size
+      source.close
+      raise Exception, "sum of slice sizes does not equal size of source file."
+    end
+    source.close
+    slice_sizes.count.times do |i|
+      temp = ("%3d"%[i + 1]).gsub(" ", "0")
+      slice_names << File.join(output_dir, [source_file_name, temp].join('.'))
+    end
+    split(source_file_name, slice_names, slice_sizes)
+  end
+
   def standard_splitter(source_file_name, number_of_slices, options={})
     slice_sizes = []
     slice_names = []
@@ -13,18 +30,18 @@ module MasterSplitter
       slice_names << File.join(output_dir, [source_file_name, temp].join('.'))
     end
     remain_bytes = source_size - (slice_size * number_of_slices)
-    slices_sizes[-1] +=  remain_bytes
+    slice_sizes[-1] +=  remain_bytes
 
     source.close
     split(source_file_name, slice_names, slice_sizes)
   end
 
-  def split(source_file_name, slice_names, slices_sizes)
+  def split(source_file_name, slice_names, slice_sizes)
     source = File.open(source_file_name, 'rb')
 
     slice_names.size.times do |i|
       slice = File.open(slice_names[i], 'wb')
-      bytes_to_write = slices_sizes[i]
+      bytes_to_write = slice_sizes[i]
 
       while bytes_to_write > 0
         chunk = MAX_CHUNK_SIZE
