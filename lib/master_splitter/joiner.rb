@@ -8,7 +8,7 @@ module MasterSplitter
       end
     end
 
-    output_file_name ||= slice_name[0]
+    output_file_name ||= slice_names[0]
     output_dir ||= ""
     join(File.join(output_dir, output_file_name), slice_names)
   end
@@ -42,7 +42,7 @@ module MasterSplitter
   end #end of standard_joiner
 
   def join(output_file_name, slice_names)
-    output_file = File.open(source_file_name, 'wb')
+    output_file = File.open(output_file_name, 'wb')
 
     slice_names.each do |slice_name|
       slice = File.open(slice_name, 'rb')
