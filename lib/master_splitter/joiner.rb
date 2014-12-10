@@ -21,7 +21,11 @@ module MasterSplitter
       match(first_slice_name)
 
     if match_result
-      output_file_name ||= match_result[1]
+      if match_result[1].include?("/")
+        output_file_name ||= FILE_NAME_FINDER.match(match_result[1])[1]
+      else
+        output_file_name ||= match_result[1]
+      end
       slice_number = match_result[2].to_i
       while true
         temp = ("%3d"%[slice_number]).gsub(" ", "0")
