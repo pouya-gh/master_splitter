@@ -9,8 +9,10 @@ module MasterSplitter
     end
 
     output_file_name ||= slice_names[0]
-    output_dir ||= ""
-    join(File.join(output_dir, output_file_name), slice_names)
+    if output_dir
+        output_file_name = File.join(output_dir, output_file_name)
+    end
+    join(output_file_name, slice_names)
   end
 
   def standard_joiner(first_slice_name, options={})
@@ -21,7 +23,7 @@ module MasterSplitter
       match(first_slice_name)
 
     if match_result
-      if match_result[1].include?("/")
+      if match_result[1].include?("/") && output_dir
         output_file_name ||= FILE_NAME_FINDER.match(match_result[1])[1]
       else
         output_file_name ||= match_result[1]
@@ -38,8 +40,10 @@ module MasterSplitter
         end
       end #end of while
 
-      output_dir ||= ""
-      join(File.join(output_dir, output_file_name), slice_names)
+      if output_dir
+        output_file_name = File.join(output_dir, output_file_name)
+      end
+      join(output_file_name, slice_names)
     else
       raise Exception, %q{Wrong naming format for the first slice!}
     end
