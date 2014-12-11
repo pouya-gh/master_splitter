@@ -1,7 +1,7 @@
 module MasterSplitter
   def custom_splitter(source_file_name, slice_sizes, options={})
     slice_names = []
-    output_dir = options[:output_dir] || ""
+    output_dir = options[:output_dir]
     sum_of_sizes = slice_sizes.each(&:+)
     source = File.open(source_file_name, 'rb')
     if sum_of_sizes != source.size
@@ -11,30 +11,47 @@ module MasterSplitter
     source.close
     slice_sizes.count.times do |i|
       temp = ("%3d"%[i + 1]).gsub(" ", "0")
-      slice_names << File.join(output_dir, [source_file_name, temp].join('.'))
-    end
+
+      if output_dir
+        slice_name = source_file_name
+        if source_file_name.include?("/")
+          slice_name = FILE_NAME_FINDER.match(source_file_name)[1]
+        end
+        slice_names << File.join(output_dir, [slice_name, temp].join('.'))
+      else
+        slice_names << [source_file_name, temp].join('.')
+      end
+    end #end of iteration
     split(source_file_name, slice_names, slice_sizes)
-  end
+  end #end of custom_splitter
 
   def standard_splitter(source_file_name, number_of_slices, options={})
     slice_sizes = []
     slice_names = []
-    output_dir = options[:output_dir] || ""
+    output_dir = options[:output_dir]
     source = File.open(source_file_name, 'rb')
     source_size = source.size
     slice_size = source_size / number_of_slices
+    slice_name = source_file_name
+    if source_file_name.include?('/')
+      slice_name = FILE_NAME_FINDER.match(source_file_name)[1]
+    end
 
     number_of_slices.times do |n|
       slice_sizes << slice_size
       temp = ("%3d"%[n + 1]).gsub(" ", "0")
-      slice_names << File.join(output_dir, [source_file_name, temp].join('.'))
+      if output_dir
+        slice_names << File.join(output_dir, [slice_name, temp].join('.'))
+      else
+        slice_names << [source_file_name, temp].join('.')
+      end
     end
     remain_bytes = source_size - (slice_size * number_of_slices)
     slice_sizes[-1] +=  remain_bytes
 
     source.close
     split(source_file_name, slice_names, slice_sizes)
-  end
+  end #end of standard_splitter
 
   def split(source_file_name, slice_names, slice_sizes)
     source = File.open(source_file_name, 'rb')
