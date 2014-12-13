@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'master_splitter'
+include MasterSplitter
+
+options = {}
+options[:join_options] = {}
+option_parser = OptionParser.new do |opts|
+  opts.on("-f FIRST", "--first-slice-file FIRST") do |first|
+    options[:first_slice_name] = first
+  end
+
+  opts.on("-o DIRECTORY", "--output-dir DIRECTORY") do |output_dir|
+    options[:join_options][:output_dir] = output_dir
+  end
+
+  opts.on("-n NAME", "--name-final-file NAME") do |name|
+    options[:join_options][:output_file_name] = name
+  end
+end
+
+option_parser.parse!
+standard_joiner(options[:first_slice_name], options[:join_options])
