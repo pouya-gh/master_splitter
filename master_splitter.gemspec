@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["p.gharibpour@gmail.com"]
   spec.summary       = %q{File spliter and joiner.}
   spec.description   = %q{Simple file spliter and joiner. But not compressor.}
-  spec.homepage      = "github.com/psparabara/master_splitter"
+  spec.homepage      = "https://www.github.com/psparabara/master_splitter"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
