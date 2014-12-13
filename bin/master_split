@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'master_splitter'
+include MasterSplitter
+
+options = {}
+options[:split_options] = {}
+option_parser = OptionParser.new do |opts|
+  opts.on("-s SOURCE", "--source-file SOURCE") do |source|
+    options[:source_file] = source
+  end
+
+  opts.on("-n NUMBER", "--number-of-slices NUMBER") do |number|
+    options[:number_of_slices] = number
+  end
+
+  opts.on("-o DIRECTORY", "--output-dir DIRECTORY") do |output_dir|
+    options[:split_options][:output_dir] = output_dir
+  end
+end
+
+option_parser.parse!
+standard_splitter(options[:source_file], options[:number_of_slices].to_i, options[:split_options])
