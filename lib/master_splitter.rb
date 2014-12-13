@@ -4,5 +4,5 @@ require "master_splitter/joiner"
 require "master_splitter/splitter"
 
 module MasterSplitter
-  # Your code goes here...
+  
 end
