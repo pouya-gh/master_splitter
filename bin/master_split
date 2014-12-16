@@ -4,6 +4,12 @@ require 'optparse'
 require 'master_splitter'
 include MasterSplitter
 
+help = %q{here are the valid flags and switches:
+  -s, --source-file           Name of file you want to split. Can't be nil.
+  -n, --number-of-slices      Number of the slices you wish the file to be splitted to. Can't be nil. 
+  -o, --output-dir            The directory you want the slices to be.
+  -h, --help                  You see this help.
+}
 options = {}
 options[:split_options] = {}
 option_parser = OptionParser.new do |opts|
@@ -18,7 +24,15 @@ option_parser = OptionParser.new do |opts|
   opts.on("-o DIRECTORY", "--output-dir DIRECTORY") do |output_dir|
     options[:split_options][:output_dir] = output_dir
   end
+
+  opts.on("-h", "--help") do
+    options[:needs_help?] = true
+  end
 end
 
 option_parser.parse!
-standard_splitter(options[:source_file], options[:number_of_slices].to_i, options[:split_options])
+if options[:needs_help?]
+  puts help
+else
+  standard_splitter(options[:source_file], options[:number_of_slices].to_i, options[:split_options])
+end

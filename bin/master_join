@@ -4,6 +4,12 @@ require 'optparse'
 require 'master_splitter'
 include MasterSplitter
 
+help = %q{here are the valid flags and switches:
+  -f, --first-slice-file      Name of the first slice that you want to join. Can't be nil.
+  -o, --output-dir            The directory you want the final file to be.
+  -n, --name-final-file       The name you wish for the output file.
+  -h, --help                  You see this help.
+}
 options = {}
 options[:join_options] = {}
 option_parser = OptionParser.new do |opts|
@@ -18,7 +24,15 @@ option_parser = OptionParser.new do |opts|
   opts.on("-n NAME", "--name-final-file NAME") do |name|
     options[:join_options][:output_file_name] = name
   end
+
+  opts.on("-h", "--help") do
+    options[:needs_help?] = true
+  end
 end
 
 option_parser.parse!
-standard_joiner(options[:first_slice_name], options[:join_options])
+if options[:needs_help?]
+  puts help
+else
+  standard_joiner(options[:first_slice_name], options[:join_options])
+end
