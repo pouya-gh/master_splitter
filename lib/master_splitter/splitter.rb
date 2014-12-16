@@ -1,5 +1,19 @@
 module MasterSplitter
   def custom_splitter(source_file_name, slice_sizes, options={})
+    ##
+    # With this method you can split a file to slices which
+    # you can specify size of each slice.
+    # Sum of all slice sizes must be equal to the size of the
+    # orginal fille.
+    # Needless to say, sizes must be in bytes.
+    # Example: 
+    #   >> custom_splitter("file.pdf", 
+    #                      [1232, 5432], output_dir: "Desktop/")
+    # Arguments:
+    #     source_file_name: (String)
+    #     slice_sizes:      (Array)
+    #     options:          (Hash) 
+    # 
     slice_names = []
     output_dir = options[:output_dir]
     sum_of_sizes = slice_sizes.each(&:+)
@@ -26,6 +40,18 @@ module MasterSplitter
   end #end of custom_splitter
 
   def standard_splitter(source_file_name, number_of_slices, options={})
+    ##
+    # This method splits a given file to a specified 
+    # number of slices, equally.
+    # Example: 
+    #   >> standard_splitter("file.pdf", 
+    #                         number_of_slices: 5, 
+    #                         output_dir: "Desktop/")
+    # Arguments:
+    #     source_file_name: (String)
+    #     number_of_slices: (Fixnum)
+    #     options:          (Hash) 
+    #
     slice_sizes = []
     slice_names = []
     output_dir = options[:output_dir]
@@ -54,6 +80,17 @@ module MasterSplitter
   end #end of standard_splitter
 
   def split(source_file_name, slice_names, slice_sizes)
+    ##
+    # This method does the actual splitting of file.
+    # It gets the name of the source file and two arrays.
+    # One contains names of the slices and the other their sizes.
+    # Example: 
+    #   >> split("book.pdf", ["book.pdf.001", "book.pdf.002"], [6456, 6456])
+    # Arguments:
+    #     source_file_name: (String)
+    #     slice_names:      (Array) 
+    #     slice_sizes:      (Array)
+    # 
     source = File.open(source_file_name, 'rb')
 
     slice_names.size.times do |i|
