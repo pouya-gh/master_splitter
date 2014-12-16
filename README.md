@@ -1,6 +1,6 @@
 # MasterSplitter
 
-TODO: Write a gem description
+A simple file splitter and joiner.
 
 ## Installation
 
@@ -20,11 +20,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can use executables 'master_join' and 'master_split'. 
+For more imformation just use them with a -h flag.
+You can also include it as a library and use if methods 
+directly, like this:
+
+```ruby
+include MasterSplitter
+
+standard_split("path/to/file.pdf", 5)
+# splits the file to 5 slices.
+
+standard_join("path/to/slice.pdf.001")
+```
+
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/master_splitter/fork )
+The best way you can contribute now is to teach me a way
+to write specs for file interactions. Or you can help as the following:
+
+1. Fork it ( https://github.com/psparabara/master_splitter/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
