@@ -22,7 +22,7 @@ Or install it yourself as:
 
 You can use executables 'master_join' and 'master_split'. 
 For more imformation just use them with a -h flag.
-You can also include it as a library and use if methods 
+You can also include it as a library and use it's methods 
 directly, like this:
 
 ```ruby
