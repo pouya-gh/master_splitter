@@ -1,17 +1,17 @@
 module MasterSplitter
+  ##
+  # With this method you can join a couple of file
+  # which their names does not follow the standard format.
+  # You can pass it a name for the output file and a directory
+  # to store it.
+  # Example: 
+  #   >> custom_joiner(["first.pdf", "second.pdf"], 
+  #                     output_file_name: "book.pdf", output_dir: "Desktop/")
+  # Arguments:
+  #     slice_names: (Array)
+  #     options:     (Hash) 
+  # 
   def custom_joiner(slice_names, options={})
-    ##
-    # With this method you can join a couple of file
-    # which their names does not follow the standard format.
-    # You can pass it a name for the output file and a directory
-    # to store it.
-    # Example: 
-    #   >> custom_joiner(["first.pdf", "second.pdf"], 
-    #                     output_file_name: "book.pdf", output_dir: "Desktop/")
-    # Arguments:
-    #     slice_names: (Array)
-    #     options:     (Hash) 
-    # 
     output_dir = options[:output_dir]
     output_file_name = options[:output_file_name]
     slice_names.each do |slice_name|
@@ -27,19 +27,19 @@ module MasterSplitter
     join(output_file_name, slice_names)
   end
 
+  ##
+  # This method joins slices of a splitted file which
+  # their names follow the standard format.
+  # You just have to pass it the name of the first slice.
+  # Remember that all slices must be in the same directory.
+  # Example: 
+  #   >> standard_joiner("path/to/first_slice.pdf.001", 
+  #                     output_file_name: "book.pdf", output_dir: "Desktop/")
+  # Arguments:
+  #     first_slice_name: (String)
+  #     options:          (Hash) 
+  # 
   def standard_joiner(first_slice_name, options={})
-    ##
-    # This method joins slices of a splitted file which
-    # their names follow the standard format.
-    # You just have to pass it the name of the first slice.
-    # Remember that all slices must be in the same directory.
-    # Example: 
-    #   >> standard_joiner("path/to/first_slice.pdf.001", 
-    #                     output_file_name: "book.pdf", output_dir: "Desktop/")
-    # Arguments:
-    #     first_slice_name: (String)
-    #     options:          (Hash) 
-    # 
     output_dir = options[:output_dir]
     output_file_name = options[:output_file_name]
     slice_names = []
@@ -73,18 +73,18 @@ module MasterSplitter
     end
   end #end of standard_joiner
 
+  ##
+  # This method does the actual joining of slices.
+  # It gets an Array of slice names and name of the 
+  # output file.
+  #
+  # Example: 
+  #   >> join("book.pdf", ["book.pdf.001", "book.pdf.002"])
+  # Arguments:
+  #     output_file_name: (String)
+  #     slice_names:      (Array) 
+  # 
   def join(output_file_name, slice_names)
-    ##
-    # This method does the actual joining of slices.
-    # It gets an Array of slice names and name of the 
-    # output file.
-    #
-    # Example: 
-    #   >> join("book.pdf", ["book.pdf.001", "book.pdf.002"])
-    # Arguments:
-    #     output_file_name: (String)
-    #     slice_names:      (Array) 
-    # 
     output_file = File.open(output_file_name, 'wb')
 
     slice_names.each do |slice_name|
