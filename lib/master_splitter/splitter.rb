@@ -45,7 +45,7 @@ module MasterSplitter
   # number of slices, equally.
   # Example: 
   #   >> standard_splitter("file.pdf", 
-  #                         number_of_slices: 5, 
+  #                         5, 
   #                         output_dir: "Desktop/")
   # Arguments:
   #     source_file_name: (String)
